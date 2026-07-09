@@ -1,0 +1,123 @@
+# 토스증권
+
+이 파일은 [REST Client 확장 프로그램](https://open-vsx.org/extension/humao/rest-client)을 사용하여 작성되었습니다.
+
+
+### 순위 거래대금, 거래량, 급상승, 급하락
+POST https://wts-cert-api.tossinvest.com/api/v2/dashboard/wts/overview/ranking
+Content-Type: application/json
+
+{
+   "id":"biggest_market_amount",
+   "filters":[
+      "KRX_MANAGEMENT_STOCK",
+      "MARKET_CAP_GREATER_THAN_50M",
+      "STOCKS_PRICE_GREATER_THAN_ONE_DOLLAR"
+   ],
+   "duration":"realtime",
+   "tag":"kr" 
+}
+
+* id
+    * `biggest_total_amount` : 토스증권 거래대금
+    * `biggest_total_volume` : 토스증권 거래량
+    * `biggest_market_amount` : 거래대금
+    * `biggest_market_volume` : 거래량
+    * `heavy_soar`: 급상승
+    * `heavy_descent`: 급하락
+* duration
+    * `realtime` : 실시간
+    * `5d`: 1주일
+    * `20d`: 1개월
+    * `60d`: 3개월
+    * `120d`: 6개월
+    * `240d`: 1년
+* tag
+    * `all`: 전체
+    * `kr`: 국내
+    * `us`: 해외
+
+
+### 지표 조회
+https://wts-cert-api.tossinvest.com/api/v4/dashboard/wts/overview/indicator
+
+
+### 차트 데이터 
+GET https://wts-info-api.tossinvest.com/api/v1/c-chart/kr-s/A005930/day:1?count=450&investMode=integrated&useAdjustedRate=true
+
+* min:1
+* min:3
+* min:5
+* min:10
+* min:15
+* min:30
+* min:60
+* day:1
+* week:1
+* month:1
+
+쿼리 파라미터
+* from: 캔들 시작 시간 from=2026-06-29T10:10:00+09:00
+* count: 1 ~ 450 (캔들 갯수)
+* useAdjustedRate: true (수정주가)
+* investMode: integrated (통합)
+
+### 주식 가격 조회
+GET https://wts-info-api.tossinvest.com/api/v1/product/stock-prices?meta=true&productCodes=A000660,A005930,US20100211003,US20100311002
+* meta: true
+    * true: 메타 데이터 포함
+* productCodes: 종목 코드
+    * A000660,A005930,US20100211003,US20100311002
+
+### 종목 기본 정보 조회
+GET https://wts-info-api.tossinvest.com/api/v1/stock-detail/ui/A066570/common
+
+### 종목 상세 정보 조회 (다수 종목)
+GET https://wts-info-api.tossinvest.com/api/v1/stock-infos?codes=A005930,A066570,A454910,A000660,A035420,US19890516001,A009150,US20100311002,US20000627001,A064400,A017670,A036570,A011070,US19990122001,US19711013001,A005380,NAS0250224006,US19860313001,US19990310001,US20100629001,A402340,A006400,A018260,A028260,US20000512001,NAS0241010007,US20100211003,A032830,US20181228002,US20120518001,US20090806002,US19940701001,A034020,US20140915003,US20150805002,A108490,A012330,US20040819001,US20010713001,US20130410003,US20120629001,US19801212001,NAS0221213008,NAS0230914001,US20100311003,US20040819002,A003550,US20150102001,AMX2604002001,US20110524001,US19911213001,A307950,A010120,US19930122001,US20200930014,A042700,NAS0231020001,NAS0250328002,US19860312001,US20210825002,US20220126002,A323280,US20100420001,A373220,A010140,US20060522001,NAS0250213005,A042660,US20100211002,US19971008002,US20060410001,A085620,A086520,A005935,A128940,US20191211007,A006800,A000270,A011790,A329180,US20130925001,A000150,US19980630001,US19490128001,US19950315001,A005490,US19980611001,NAS0240318001,A007660,A247540,A277810,US20180910002,US19450521001,US19531001001,US20220809012,A196170,A319400,A267260,A043260,A022100
+
+### 종목 상세 정보 조회 v1 (단일종목)
+GET https://wts-info-api.tossinvest.com/api/v1/stock-infos/A066570
+
+### 주식 틱 조회 (체결 최대 450개)
+GET https://wts-info-api.tossinvest.com/api/v2/stock-prices/A000660/ticks?count=400
+
+### 호가 조회 (Orderbook)
+GET https://wts-info-api.tossinvest.com/api/v3/stock-prices/A000660/quotes
+
+### AI 시그널 조회 (다건)
+POST https://wts-info-api.tossinvest.com/api/v1/dashboard/wts/overview/ai-signals
+Content-Type: application/json
+
+{"productCodes":["A005930","A000660"]}
+
+### AI 시그널 상세 (단건)
+GET https://wts-info-api.tossinvest.com/api/v1/dashboard/wts/overview/ai-signals/detail?productCode=A005930&productType=STOCKS
+
+### 거래 시간 조회
+GET https://wts-api.tossinvest.com/api/v2/system/trading-hours/integrated
+
+### 투자자별 종목 랭킹
+GET https://wts-cert-api.tossinvest.com/api/v1/dashboard/wts/overview/rankings/by-investors?size=100
+
+### 환율 조회
+GET https://wts-info-api.tossinvest.com/api/v1/dashboard/wts/overview/exchange-rates
+
+### 뉴스 조회
+POST https://wts-info-api.tossinvest.com/api/v1/dashboard/wts/news
+Content-Type: application/json
+
+{"type":"ALL_HIGHLIGHT"}
+
+* type
+    * PERSONALIZE_HOLD : 보유주식 뉴스
+    * PERSONALIZE_WATCH : 관심주식 뉴스
+    * ALL_HIGHLIGHT : 주요 뉴스
+    * HOT : 최신뉴스
+    * SOARING_STOCK : 급상승 뉴스
+
+### 댓글 조회
+GET https://wts-info-api.tossinvest.com/api/v1/stock-detail/ui/A066570/common
+
+### 실시간 토론
+GET https://wts-cert-api.tossinvest.com/api/v4/comments?subjectType=STOCK&subjectId=KR7066570003&commentSortType=POPULAR
+
