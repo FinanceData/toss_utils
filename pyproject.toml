@@ -8,6 +8,9 @@ dependencies = [
     "httpx>=0.28.1",
 ]
 
+[project.optional-dependencies]
+df = ["pandas>=3.0"]
+
 [project.scripts]
 toss = "main:main"
 
@@ -21,5 +24,17 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 only-include = ["toss_utils.py", "main.py"]
 
+[tool.hatch.build.targets.sdist]
+include = [
+    "toss_utils.py",
+    "main.py",
+    "README.md",
+    "pyproject.toml",
+]
+
+[tool.uv]
+package = true
+
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["."]
+python_files = ["test_*.py"]

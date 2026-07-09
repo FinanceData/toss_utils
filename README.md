@@ -5,13 +5,31 @@
 
 ## 설치
 
+### uv tool (권장)
+
+```bash
+# 로컬 설치 → 전역 `toss` 명령
+uv tool install .
+
+# --output df 용 pandas 포함
+uv tool install ".[df]"
+
+# 설치 없이 일회 실행
+uv tool run --from . toss ticks 005930
+
+# git 저장소에서 (remote URL 기준)
+uv tool install git+https://github.com/<user>/toss_utils.git
+```
+
+### pip
+
 ```bash
 pip install httpx
 # 또는 (CLI 포함)
 pip install -e .
 ```
 
-설치 후 `toss` 명령을 사용할 수 있다. 미설치 시 `python main.py`로 동일하게 실행한다.
+`uv tool install` 또는 `pip install -e .` 후 `toss` 명령을 사용한다. 미설치 시 `python main.py` 또는 `uv tool run --from . toss`로 실행한다.
 
 ## CLI
 
@@ -33,7 +51,7 @@ toss news hot -o json
 | ------ | ---------------------------------------- |
 | `json` | JSON (기본)                                |
 | `md`   | 마크다운 테이블                                 |
-| `df`   | pandas 텍스트 테이블 (`pip install pandas` 필요) |
+| `df`   | pandas 텍스트 테이블 (`uv tool install ".[df]"` 또는 `pip install pandas`) |
 
 
 ### 명령어
